@@ -5,6 +5,7 @@ from PIL import Image
 from tqdm import tqdm
 import numpy as np
 import pickle
+from distance import Distance
 
 from annoy import AnnoyIndex
 from tensorflow.keras.preprocessing import image
@@ -85,9 +86,9 @@ class FeatureExtractor:
 
 class CreateData:
   def __init__(self):
-    pass
-  def create(self, image_list, model_name):
     self.root_dir = os.environ["DEEP-SEARCH"]
+  def create(self, image_list, model_name):
+    
     self.image_list = image_list
     self.model_name = model_name
     self.FE = FeatureExtractor(self.model_name)
@@ -109,10 +110,9 @@ class CreateData:
 
 class SearchImage:
     def __init__(self):
-        pass
+      self.root_dir = os.environ["DEEP-SEARCH"]
     def search_by_distance(self, model_name, image, k = 10, threshold = 100):
       self.model_name = model_name
-      self.root_dir = os.environ["DEEP-SEARCH"]
       self.image_data = pd.read_pickle(self.root_dir + f"/{self.model_name}-data-files/image_encode_data.pkl")
       rs_images_name = []
       rs_distance = []
